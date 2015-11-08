@@ -2,3 +2,4 @@ artifacts
 .vs
 *.user
 *.lock.json
+src/bugur/wwwroot/vendor
