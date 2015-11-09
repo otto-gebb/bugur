@@ -1,10 +1,15 @@
 ﻿Bugur
 =====
 A simple image hosting application for a local network.
+Built on ASP.Net 5 beta8.
 
 Security isn't a goal of this project, in particular:
-* there's no authentication.
+* there's no authentication,
 * detailed server errors are reported.
+
+Demo
+----
+![Bugur demo](http://i.imgur.com/kN2rMki.gif "Demo")
 
 Prerequisites
 -------------
