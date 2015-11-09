@@ -38,9 +38,9 @@
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post(UploadDto files)
+		public async Task<IActionResult> Post(UploadDto dto)
 		{
-			IFormFile file = files.Payload;
+			IFormFile file = dto.Payload;
 			JsonResult result;
 			try
 			{
@@ -59,9 +59,8 @@
 					// See http://plugins.krajee.com/file-input#ajax-uploads
 					string markup = $"<img src='/images/{fullName}' class='file-preview-image' alt='{fullName}' title='{fullName}' /> " +
 						$"<p><a href='/images/{fullName}'>Link</a></p>";
-					//return Created(
-					//	$"/images/{fullName}",
-					return Json(
+					return Created(
+						$"/images/{fullName}",
 						new
 						{
 							initialPreview = new[] { markup },
@@ -74,9 +73,9 @@
 					result.StatusCode = StatusCodes.Status400BadRequest;
 				}
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				result = Json(new { error = "Server error." });
+				result = Json(new { error = "Server error. " + ex });
 				result.StatusCode = StatusCodes.Status500InternalServerError;
 			}
 			return result;
