@@ -20,26 +20,39 @@
 	</div>
 	<form enctype="multipart/form-data">
 		<div class="form-group">
-			<input id="file-1" type="file" multiple="true" class="file" data-show-upload="true" data-overwrite-initial="false" data-min-file-count="1" data-upload-url="#">
+			<input 
+			id="file-1"
+			name="Payload"
+			type="file"
+			class="file-loading"
+			multiple
+			accept="image/*"
+			data-upload-url="api/upload">
 		</div>
+		<button id="btn-clear" class="btn btn-default hidden">Clear</button>
 	</form>
 
 </div>
 
 <script>
 	$(document).ready(function() {
-		$("#file-1").fileinput({
-			uploadUrl: '#', // you must set a valid URL here else you will get an error
+		var f = $("#file-1");
+		f.fileinput({
 			allowedFileExtensions: ['jpg', 'png', 'gif'],
-			overwriteInitial: false,
 			maxFileSize: 5000,
 			maxFilesNum: 10,
-			//allowedFileTypes: ['image', 'video', 'flash'],
+			showUploadedThumbs: false,
+			allowedFileTypes: ['image', 'video', 'flash'],
 			slugCallback: function(filename) {
 				return filename.replace('(', '_').replace(']', '_');
 			}
 		});
-		
+		f.on('fileclear', function () {
+			$('#btn-clear').click();
+		});
+		$('#btn-clear').on('click', function () {
+			f.fileinput('reset');
+		}); 
 	});
 </script>
 </body>

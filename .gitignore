@@ -3,3 +3,4 @@ artifacts
 *.user
 *.lock.json
 src/bugur/wwwroot/vendor
+src/bugur/wwwroot/images
