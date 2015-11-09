@@ -57,14 +57,16 @@
 					string filePath = Path.Combine(_basePath, "wwwroot", "images", fullName);
 					await file.SaveAsAsync(filePath);
 					// See http://plugins.krajee.com/file-input#ajax-uploads
-					string markup = $"<img src='/images/{fullName}' class='file-preview-image' alt='{fullName}' title='{fullName}' /> " +
-						$"<p><a href='/images/{fullName}'>Link</a></p>";
-					return Created(
-						$"/images/{fullName}",
+					string imageUrl = $"/images/{fullName}";
+					string markup = $"<img src='{imageUrl}' class='file-preview-image' alt='{fullName}' title='{fullName}' /> " +
+						$"<p><a href='{imageUrl}'>Link</a></p>";
+					return base.Created(
+						imageUrl,
 						new
 						{
 							initialPreview = new[] { markup },
-							initialPreviewConfig = new object[] { new { caption = fullName } }
+							initialPreviewConfig = new object[] { new { caption = fullName } },
+							imageUrl = imageUrl
 						});
 				}
 				else

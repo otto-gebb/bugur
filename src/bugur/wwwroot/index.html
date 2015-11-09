@@ -31,10 +31,25 @@
 		</div>
 		<button id="btn-clear" class="btn btn-default hidden">Clear</button>
 	</form>
-
+	<p id="upload-info" style="display: none;">Click a gray box to select the link contained there.</p>
+	<div id="uploaded"></div>
 </div>
 
 <script>
+	function SelectText(element) {
+		var doc = document, range, selection;
+		if (doc.body.createTextRange) {
+			range = document.body.createTextRange();
+			range.moveToElementText(element);
+			range.select();
+		} else if (window.getSelection) {
+			selection = window.getSelection();
+			range = document.createRange();
+			range.selectNodeContents(element);
+			selection.removeAllRanges();
+			selection.addRange(range);
+		}
+	}
 	$(document).ready(function() {
 		var f = $("#file-1");
 		f.fileinput({
@@ -51,8 +66,20 @@
 			$('#btn-clear').click();
 		});
 		$('#btn-clear').on('click', function () {
+			$(".uploaded pre").off();
+			$(".uploaded").empty();
+			$("#upload-info").hide();
 			f.fileinput('reset');
-		}); 
+		});
+		f.on('fileuploaded', function (event, data, previewId, index) {
+			var response = data.response, reader = data.reader;
+			var url = window.location.origin + response.imageUrl;
+			var pre = $('<pre>' + url + '</pre>').appendTo("#uploaded");
+			pre.on("click", function () {
+				SelectText(pre[0]);
+			});
+			$("#upload-info").show();
+		});
 	});
 </script>
 </body>
